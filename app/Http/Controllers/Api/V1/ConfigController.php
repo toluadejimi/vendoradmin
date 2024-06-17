@@ -104,13 +104,13 @@ class ConfigController extends Controller
         }
 
         //addon settings publish status
-        $published_status = 0; // Set a default value
+       // $published_status = 0; // Set a default value
+        $published_status = 1;
         $payment_published_status = config('get_payment_publish_status');
         if (isset($payment_published_status[0]['is_published'])) {
             $published_status = $payment_published_status[0]['is_published'];
         }
 
-        dd($published_status, $this->getPaymentMethods(), $this->getDefaultPaymentMethods(), $payment_published_status);
 
         $active_addon_payment_lists = $published_status == 1 ? $this->getPaymentMethods() : $this->getDefaultPaymentMethods();
 
