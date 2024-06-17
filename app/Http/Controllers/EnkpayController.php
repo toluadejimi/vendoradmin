@@ -119,7 +119,15 @@ class EnkpayController extends Controller
                 return $this->payment_response($data,'success');
 
         }
+
+        $payment_data = $this->payment::where(['id' => $request->wc_order])->first();
+        if (isset($payment_data) && function_exists($payment_data->failure_hook)) {
+            call_user_func($payment_data->failure_hook, $payment_data);
+        }
+        return $this->payment_response($payment_data,'fail');
     }
+
+
 }
 
 
