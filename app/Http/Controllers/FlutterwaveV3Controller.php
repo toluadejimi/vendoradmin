@@ -148,6 +148,7 @@ class FlutterwaveV3Controller extends Controller
                 }
             }
         }
+
         $payment_data = $this->payment::where(['id' => $request['payment_id']])->first();
         if (isset($payment_data) && function_exists($payment_data->failure_hook)) {
             call_user_func($payment_data->failure_hook, $payment_data);

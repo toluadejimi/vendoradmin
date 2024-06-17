@@ -100,7 +100,25 @@ class EnkpayController extends Controller
 
     public function callback(Request $request)
     {
-        dd($request->all());
+        $txid = $request->trans_id;
+
+
+        if ($request->status == "success") {
+
+                $this->payment::where(['id' => $request->wc_order])->update([
+                    'payment_method' => 'enkpay',
+                    'is_paid' => 1,
+                    'transaction_id' => $txid,
+                ]);
+
+                $data = $this->payment::where(['id' => $request->wc_order])->first();
+                if (isset($data) && function_exists($data->success_hook)) {
+                    call_user_func($data->success_hook, $data);
+                }
+
+                return $this->payment_response($data,'success');
+
+        }
     }
 }
 
