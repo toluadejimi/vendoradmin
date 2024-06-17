@@ -99,7 +99,6 @@ class EnkpayController extends Controller
 
     public function callback(Request $request)
     {
-
         dd($request->all());
     }
 }
