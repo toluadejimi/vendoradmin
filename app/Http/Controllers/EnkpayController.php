@@ -82,8 +82,10 @@ class EnkpayController extends Controller
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_204), 200);
         }
 
+
         $payer = json_decode($data['payer_information']);
 
+        dd($payer);
 
 
         $key = env('WEBKEY');
