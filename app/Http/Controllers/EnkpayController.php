@@ -81,13 +81,14 @@ class EnkpayController extends Controller
         }
 
         $payer = json_decode($data['payer_information']);
-
+        $p_id = $request['payment_id'];
+ -
 
         $key = env('WEBKEY');
         $ref = "BOOM".$data->attribute_id;
         $email = $payer->phone;
 
-        $url = "https://web.enkpay.com/pay?amount=$data->payment_amount&key=$key&ref=$ref&email=$email";
+        $url = "https://web.enkpay.com/pay?amount=$data->payment_amount&key=$key&ref=$ref&email=$email&wc_order=$p_id";
 
 
         $message = $payer->email . "| wants to pay |  NGN " . number_format($data->payment_amount) . " | with ref | $ref |  on BOOMZY";
