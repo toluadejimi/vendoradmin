@@ -110,6 +110,8 @@ class ConfigController extends Controller
             $published_status = $payment_published_status[0]['is_published'];
         }
 
+        dd($published_status, $this->getPaymentMethods(), $this->getDefaultPaymentMethods());
+
         $active_addon_payment_lists = $published_status == 1 ? $this->getPaymentMethods() : $this->getDefaultPaymentMethods();
 
         $digital_payment_infos = array(
