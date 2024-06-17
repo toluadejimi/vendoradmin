@@ -698,10 +698,7 @@ class BusinessSettingsController extends Controller
     public function payment_update(Request $request, $name)
     {
         // dd($name);
-        if (env('APP_MODE') == 'demo') {
-            Toastr::info(translate('messages.update_option_is_disable_for_demo'));
-            return back();
-        }
+
         if ($name == 'cash_on_delivery') {
             $payment = BusinessSetting::where('key', 'cash_on_delivery')->first();
             if (isset($payment) == false) {
@@ -912,6 +909,32 @@ class BusinessSettingsController extends Controller
             } else {
                 DB::table('business_settings')->where(['key' => 'flutterwave'])->update([
                     'key'        => 'flutterwave',
+                    'value'      => json_encode([
+                        'status'        => $request['status'],
+                        'public_key'     => $request['public_key'],
+                        'secret_key'     => $request['secret_key'],
+                        'hash'    => $request['hash'],
+                    ]),
+                    'updated_at' => now(),
+                ]);
+            }
+        }elseif ($name == 'enkpay') {
+            $payment = BusinessSetting::where('key', 'enkpay')->first();
+            if (isset($payment) == false) {
+                DB::table('business_settings')->insert([
+                    'key'        => 'enkpay',
+                    'value'      => json_encode([
+                        'status'        => 1,
+                        'public_key'     => '',
+                        'secret_key'     => '',
+                        'hash'    => '',
+                    ]),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            } else {
+                DB::table('business_settings')->where(['key' => 'enkpay'])->update([
+                    'key'        => 'enkpay',
                     'value'      => json_encode([
                         'status'        => $request['status'],
                         'public_key'     => $request['public_key'],
