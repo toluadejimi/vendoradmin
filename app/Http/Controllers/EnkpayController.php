@@ -82,15 +82,12 @@ class EnkpayController extends Controller
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_204), 200);
         }
 
-
         $payer = json_decode($data['payer_information']);
-
-        dd($payer);
 
 
         $key = env('WEBKEY');
         $ref = "BOOM".$data->attribute_id;
-        $email = $payer->email;
+        $email = $payer->phone;
 
         $url = "https://web.enkpay.com/pay?amount=$data->payment_amount&key=$key&ref=$ref&email=$email";
 
