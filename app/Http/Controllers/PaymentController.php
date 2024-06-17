@@ -13,6 +13,7 @@ use App\Library\Payment as PaymentInfo;
 
 class PaymentController extends Controller
 {
+
     public function __construct(){
         if (is_dir('App\Traits') && trait_exists('App\Traits\Payment')) {
             $this->extendWithPaymentGatewayTrait();

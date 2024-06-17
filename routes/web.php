@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaytmController;
+use App\Http\Controllers\EnkpayController;
 use App\Http\Controllers\LiqPayController;
 use App\Http\Controllers\PaymobController;
 use App\Http\Controllers\PaytabsController;
@@ -68,9 +69,10 @@ Route::get('payment-cancel', 'PaymentController@cancel')->name('payment-cancel')
 
 $is_published = 0;
 try {
-$full_data = include('Modules/Gateways/Addon/info.php');
-$is_published = $full_data['is_published'] == 1 ? 1 : 0;
-} catch (\Exception $exception) {}
+    $full_data = include('Modules/Gateways/Addon/info.php');
+    $is_published = $full_data['is_published'] == 1 ? 1 : 0;
+} catch (\Exception $exception) {
+}
 
 if (!$is_published) {
     Route::group(['prefix' => 'payment'], function () {
@@ -119,14 +121,24 @@ if (!$is_published) {
         Route::group(['prefix' => 'paytm', 'as' => 'paytm.'], function () {
             Route::get('pay', [PaytmController::class, 'payment']);
             Route::any('response', [PaytmController::class, 'callback'])->name('response')
-            ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
         });
+
+        //ENKPAY
+        Route::group(['prefix' => 'enkpay', 'as' => 'enkpay.'], function () {
+            Route::get('pay', [EnkpayController::class, 'initialize'])->name('pay');
+            Route::get('callback', [EnkpayController::class, 'callback'])->name('callback');
+        });
+
+
 
         //FLUTTERWAVE
         Route::group(['prefix' => 'flutterwave-v3', 'as' => 'flutterwave-v3.'], function () {
             Route::get('pay', [FlutterwaveV3Controller::class, 'initialize'])->name('pay');
             Route::get('callback', [FlutterwaveV3Controller::class, 'callback'])->name('callback');
         });
+
+
 
         //PAYSTACK
         Route::group(['prefix' => 'paystack', 'as' => 'paystack.'], function () {

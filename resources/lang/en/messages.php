@@ -3831,4 +3831,5 @@
   'sodium' => 'Sodium',
   'pdo_mysql' => 'Pdo mysql',
   'Demo Module' => 'Demo Module',
+  'Select_zone_first' => 'Select zone first',
 );
