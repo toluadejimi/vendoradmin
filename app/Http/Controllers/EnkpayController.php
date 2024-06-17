@@ -75,8 +75,6 @@ class EnkpayController extends Controller
     public function initialize(Request $request)
     {
 
-
-
         $data = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
         if (!isset($data)) {
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_204), 200);
@@ -98,4 +96,12 @@ class EnkpayController extends Controller
         return redirect()->away($url);
 
     }
+
+    public function callback(Request $request)
+    {
+
+        dd($request->all());
+    }
 }
+
+
