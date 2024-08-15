@@ -9,9 +9,8 @@ use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PlaceOrder extends Mailable
+class VendorOrder extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,11 +28,11 @@ class PlaceOrder extends Mailable
     public function build()
     {
         $order_id = $this->order_id;
-        $order=Order::where('id', $order_id)->first();
+        $order=Order::where('id', $order_id)->first()->makehidden(['order_amount']);
         $company_name = BusinessSetting::where('key', 'business_name')->first()->value;
-        $data=EmailTemplate::where('type','user')->where('email_type', 'new_order')->first();
+        $data=EmailTemplate::where('type','vendor')->where('email_type', 'vendor_order')->first();
         $template=$data?$data->email_template:3;
-        $user_name = $order->customer->f_name.' '.$order->customer->l_name;
+        $user_name = $order->store->name;
         $store_name = $order->store->name;
         $delivery_man_name = $order->delivery_man?->f_name.''.$order->delivery_man?->l_name;
         $title = Helpers::text_variable_data_format( value:$data['title']??'',user_name:$user_name??'',store_name:$store_name??'',delivery_man_name:$delivery_man_name??'',order_id:$order_id??'');
