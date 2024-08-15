@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\WebSockets\Handler\DMLocationSocketHandler;
 use Illuminate\Support\Facades\Route;
 use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
@@ -14,6 +15,10 @@ use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('push', [NotificationController::class, 'sendNotify']);
+
+
 
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
     Route::get('zone/list', 'ZoneController@get_zones');

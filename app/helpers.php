@@ -416,3 +416,68 @@ if (!function_exists('config_settings')) {
         return (isset($config)) ? $config : null;
     }
 }
+
+
+function sendFCMNotification($accessToken, $sender_id, $registrationToken, $title, $body)
+{
+
+    $project_id = env('FIREBASE_PROJECT_ID');
+
+    $url = "https://fcm.googleapis.com/v1/projects/$project_id/messages:send"; // Replace YOUR_PROJECT_ID with your actual project ID
+
+    $fields = [
+        'message' => [
+            'token' => $registrationToken,
+            'notification' => [
+                'title' => $title,
+                'body' => $body
+
+            ]
+        ]
+    ];
+
+    $headers = [
+        'Authorization: Bearer ' . $accessToken,
+        'Content-Type: application/json',
+        "SenderId': $sender_id"
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+    $result = curl_exec($ch);
+    if ($result === FALSE) {
+        die('FCM Send Error: ' . curl_error($ch));
+    }
+    curl_close($ch);
+
+    return $result;
+
+
+
+
+}
+
+function getAccessToken()
+{
+    $keyFilePath = 'service-account-file.json'; // Replace with the path to your service account JSON file
+
+
+    // Create a new Google Client
+    $client = new Google_Client();
+    $client->setAuthConfig($keyFilePath);
+    $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+
+    // Fetch the access token
+    $accessToken = $client->fetchAccessTokenWithAssertion();
+
+    if (isset($accessToken['error'])) {
+        throw new Exception('Error fetching access token: ' . $accessToken['error']);
+    }
+
+    return $accessToken['access_token'];
+}

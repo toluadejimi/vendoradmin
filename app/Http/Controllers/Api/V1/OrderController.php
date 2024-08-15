@@ -876,6 +876,7 @@ class OrderController extends Controller
             $payments = $order->payments()->where('payment_method','cash_on_delivery')->exists();
             $order_mail_status = Helpers::get_mail_status('place_order_mail_status_user');
             $order_verification_mail_status = Helpers::get_mail_status('order_verification_mail_status_user');
+            $store_email = Store::where('id', $request['store_id'])-first()->email;
             //PlaceOrderMail
             try {
 
@@ -885,12 +886,25 @@ class OrderController extends Controller
                     if ($order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && $request->user) {
                         Mail::to($request->user->email)->send(new PlaceOrder($order->id));
                     }
+
+
+                    if ($order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && $request->user) {
+                        Mail::to($store_email)->send(new PlaceOrder($order->id));
+                    }
+
+
                     if ($order->order_status == 'pending' && config('order_delivery_verification') == 1 && $order_verification_mail_status == '1' && $request->user) {
                         Mail::to($request->user->email)->send(new OrderVerificationMail($order->otp,$request->user->f_name));
                     }
+
+
                     if ($order->is_guest == 1 && $order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && isset($request->contact_person_email)) {
                         Mail::to($request->contact_person_email)->send(new PlaceOrder($order->id));
                     }
+
+
+
+
                     if ($order->is_guest == 1 && $order->order_status == 'pending' && config('order_delivery_verification') == 1 && $order_verification_mail_status == '1' && isset($request->contact_person_email)) {
                         Mail::to($request->contact_person_email)->send(new OrderVerificationMail($order->otp,$request->contact_person_name));
                     }
