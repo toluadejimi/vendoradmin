@@ -876,7 +876,7 @@ class OrderController extends Controller
             $payments = $order->payments()->where('payment_method','cash_on_delivery')->exists();
             $order_mail_status = Helpers::get_mail_status('place_order_mail_status_user');
             $order_verification_mail_status = Helpers::get_mail_status('order_verification_mail_status_user');
-            $store_email = Store::where('id', $request['store_id'])-first()->email;
+            $store_email = Store::where('id', $request['store_id'])->first()->email;
             $admin_email = "boomzyng@gmail.com";
 
             //PlaceOrderMail
