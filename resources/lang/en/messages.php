@@ -3834,4 +3834,6 @@
   'Select_zone_first' => 'Select zone first',
   'Shopping' => 'Shopping',
   'Devlivery' => 'Devlivery',
+  'Restaurant' => 'Restaurant',
+  'Groceries' => 'Groceries',
 );

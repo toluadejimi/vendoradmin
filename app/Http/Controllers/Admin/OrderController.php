@@ -204,6 +204,8 @@ class OrderController extends Controller
 
     public function details(Request $request, $id)
     {
+
+
         $order = Order::with(['details','offline_payments','refund', 'store' => function ($query) {
             return $query->withCount('orders');
         }, 'customer' => function ($query) {

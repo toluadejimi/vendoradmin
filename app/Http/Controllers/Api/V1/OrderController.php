@@ -873,30 +873,22 @@ class OrderController extends Controller
             }
             DB::commit();
 
-
             $payments = $order->payments()->where('payment_method','cash_on_delivery')->exists();
             $order_mail_status = Helpers::get_mail_status('place_order_mail_status_user');
             $order_verification_mail_status = Helpers::get_mail_status('order_verification_mail_status_user');
             $store_email = Store::where('id', $request['store_id'])->first()->email;
             $st = Store::where('id', $request['store_id'])->first() ?? null;
-            $admin_email = 'order@boomzy.ng';
 
             //PlaceOrderMail
             try {
 
-                if(!in_array($order->payment_method, ['digital_payment', 'partial_payment', 'offline_payment'])  || $payments){
-                        Helpers::send_order_notification($order);
-
-                        
-                    Mail::to($admin_email)->send(new PlaceOrder($order->id));
+                    if(!in_array($order->payment_method, ['digital_payment', 'partial_payment', 'offline_payment'])  || $payments){
+                       Helpers::send_order_notification($order);
+                    
                 
-
                     if ($order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && $request->user) {
                         Mail::to($request->user->email)->send(new PlaceOrder($order->id));
                     }
-
-                    
-
 
                     if ($order->order_status == 'pending' && config('order_delivery_verification') == 1 && $order_verification_mail_status == '1' && $request->user) {
                         Mail::to($request->user->email)->send(new OrderVerificationMail($order->otp,$request->user->f_name));
@@ -907,12 +899,11 @@ class OrderController extends Controller
                         Mail::to($request->contact_person_email)->send(new PlaceOrder($order->id));
                     }
 
-
-
-
                     if ($order->is_guest == 1 && $order->order_status == 'pending' && config('order_delivery_verification') == 1 && $order_verification_mail_status == '1' && isset($request->contact_person_email)) {
                         Mail::to($request->contact_person_email)->send(new OrderVerificationMail($order->otp,$request->contact_person_name));
                     }
+
+
                 }
             } catch (\Exception $ex) {
                 info($ex->getMessage());
@@ -920,7 +911,6 @@ class OrderController extends Controller
 
 
             //Push Telegram Notification
-
             $cus_name = $request->user->f_name." ".$request->user->l_name ?? null;
             $cus_phone = $request->user->phone ?? null;
             $module = Module::where('id', $request->header('moduleId'))->first()->module_name;

@@ -226,6 +226,8 @@ class DashboardController extends Controller
 
     public function order(Request $request)
     {
+
+
         $params = session('dash_params');
         foreach ($params as $key => $value) {
             if ($key == 'statistics_type') {
