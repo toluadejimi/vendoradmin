@@ -925,8 +925,9 @@ class OrderController extends Controller
 
             //Push Telegram Notification
 
-            $cus_name = $request->user->f_name." ".$request->user->l_name;
-            $cus_phone = $request->user->phone;
+            $cus_name = $request->user->f_name." ".$request->user->l_name ?? null;
+            $cus_phone = $request->user->phone ?? null;
+
             $message = 
             "NEW ORDER \n\n".
             "OrderID ===>  $order->id \n".
@@ -935,6 +936,8 @@ class OrderController extends Controller
             "Customer Name ===>   $cus_name \n".
             "Customer Phone ===>  $cus_phone \n";
             send_notification($message);
+            send_notification2($message);
+
 
 
 
