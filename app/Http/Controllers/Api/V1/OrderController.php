@@ -927,7 +927,7 @@ class OrderController extends Controller
 
             $message = 
             "NEW ORDER \n\n".
-            "Module ======> $module".
+            "Module ======> $module \n".
             "OrderID ===>  $order->id \n".
             "Vendor Name ===>  $st->name \n".
             "Vendor Phone ===>  $st->phone \n".
