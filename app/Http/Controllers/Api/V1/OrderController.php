@@ -886,7 +886,7 @@ class OrderController extends Controller
                         Helpers::send_order_notification($order);
 
                     if ($order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && $request->user) {
-                        Mail::to($request->user->email)->send(new PlaceOrder($order->id));
+                        Mail::to([$request->user->email, 'order@boomzy.ng'])->send(new PlaceOrder($order->id));
                     }
 
 
