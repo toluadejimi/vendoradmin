@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\OrderPayment;
-use App\Models\ParcelDeliveryInstruction;
 use Stripe\Product;
 use App\Models\Cart;
 use App\Models\Item;
@@ -12,12 +10,14 @@ use App\Models\Admin;
 use App\Models\Order;
 use App\Models\Store;
 use App\Models\Coupon;
+use App\Models\Module;
 use App\Models\Refund;
 use App\Mail\PlaceOrder;
 use App\Models\DMVehicle;
 use App\Mail\RefundRequest;
 use App\Models\OrderDetail;
 use App\Models\ItemCampaign;
+use App\Models\OrderPayment;
 use App\Models\RefundReason;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
@@ -32,9 +32,10 @@ use App\CentralLogics\ProductLogic;
 use App\Mail\OrderVerificationMail;
 use App\CentralLogics\CustomerLogic;
 use App\Http\Controllers\Controller;
-use App\Models\Module;
 use App\Models\OfflinePaymentMethod;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ParcelDeliveryInstruction;
 use Illuminate\Support\Facades\Validator;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
@@ -910,9 +911,18 @@ class OrderController extends Controller
 
 
             //Push Telegram Notification
+
+            if(Auth::check() == true){
             $cus_name = $request->user->f_name." ".$request->user->l_name ?? null;
             $cus_phone = $request->user->phone ?? null;
             $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
+            }else{
+                $cus_name = $request->contact_person_name ?? null;
+                $cus_phone = $requestcontact_person_number ?? null;
+                $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
+
+            }
+            
 
             $message = 
             "NEW ORDER \n\n".
