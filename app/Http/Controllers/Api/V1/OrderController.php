@@ -878,7 +878,6 @@ class OrderController extends Controller
             $order_verification_mail_status = Helpers::get_mail_status('order_verification_mail_status_user');
             $store_email = Store::where('id', $request['store_id'])->first()->email;
             $st = Store::where('id', $request['store_id'])->first() ?? null;
-
             $admin_email = 'order@boomzy.ng';
 
             //PlaceOrderMail
@@ -892,7 +891,7 @@ class OrderController extends Controller
                 
 
                     if ($order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && $request->user) {
-                        Mail::to([$request->user->email, 'order@boomzy.ng'])->send(new PlaceOrder($order->id));
+                        Mail::to($request->user->email)->send(new PlaceOrder($order->id));
                     }
 
 
