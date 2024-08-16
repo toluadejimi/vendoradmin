@@ -887,9 +887,9 @@ class OrderController extends Controller
                 if(!in_array($order->payment_method, ['digital_payment', 'partial_payment', 'offline_payment'])  || $payments){
                         Helpers::send_order_notification($order);
 
-                        if ($order->order_status == 'pending') {
-                            Mail::to($admin_email)->send(new PlaceOrder($order->id));
-                        }
+                        
+                    Mail::to($admin_email)->send(new PlaceOrder($order->id));
+                
 
                     if ($order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && $request->user) {
                         Mail::to([$request->user->email, 'order@boomzy.ng'])->send(new PlaceOrder($order->id));
