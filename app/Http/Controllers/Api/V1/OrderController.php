@@ -877,7 +877,7 @@ class OrderController extends Controller
             $order_mail_status = Helpers::get_mail_status('place_order_mail_status_user');
             $order_verification_mail_status = Helpers::get_mail_status('order_verification_mail_status_user');
             $store_email = Store::where('id', $request['store_id'])->first()->email;
-            $admin_email = "order@boomzy.ng";
+            $admin_email = 'order@boomzy.ng';
 
             //PlaceOrderMail
             try {
