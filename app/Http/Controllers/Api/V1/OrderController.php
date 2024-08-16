@@ -929,9 +929,10 @@ class OrderController extends Controller
             $cus_name = $request->user->f_name." ".$request->user->l_name;
             $cus_phone = $request->user->phone;
             $message = 
+            "NEW ORDER \n\n".
             "OrderID ===>  $order->id \n".
             "Vendor Name ===>  $st->name \n".
-            "Vendor Phone ===>  $st->name \n".
+            "Vendor Phone ===>  $st->phone \n".
             "Customer Name ===>   $cus_name \n".
             "Customer Phone ===>  $cus_phone \n";
             send_notification($message);
