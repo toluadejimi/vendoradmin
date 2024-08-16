@@ -896,7 +896,7 @@ class OrderController extends Controller
                     }
 
 
-                    if ($order->order_status == 'pending' && config('mail.status') && $order_mail_status == '1' && $request->user) {
+                    if (config('mail.status') && $order_mail_status == '1' && $request->user) {
                         Mail::to($store_email)->send(new PlaceOrder($order->id));
                     }
 
