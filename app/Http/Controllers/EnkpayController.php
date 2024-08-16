@@ -88,7 +88,7 @@ class EnkpayController extends Controller
         $ref = "BOOM".$data->attribute_id;
         $email = $payer->phone;
 
-        $url = "https://web.enkpay.com/pay?amount=$data->payment_amount&key=$key&ref=$ref&email=$email&wc_order=$p_id";
+        $url = "https://web.enkpay.com/pay?amount=$data->payment_amount&key=$key&ref=$ref&email=$email&wc_order=$p_id&platform=boomzy";
 
 
         $message = $payer->email . "| wants to pay |  NGN " . number_format($data->payment_amount) . " | with ref | $ref |  on BOOMZY";

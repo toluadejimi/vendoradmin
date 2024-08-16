@@ -3836,4 +3836,5 @@
   'Devlivery' => 'Devlivery',
   'Restaurant' => 'Restaurant',
   'Groceries' => 'Groceries',
+  'Add_Fund_To_Wallet' => 'Add Fund To Wallet',
 );
