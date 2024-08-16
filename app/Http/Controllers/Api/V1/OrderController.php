@@ -32,6 +32,7 @@ use App\CentralLogics\ProductLogic;
 use App\Mail\OrderVerificationMail;
 use App\CentralLogics\CustomerLogic;
 use App\Http\Controllers\Controller;
+use App\Models\Module;
 use App\Models\OfflinePaymentMethod;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -894,11 +895,6 @@ class OrderController extends Controller
                         Mail::to($request->user->email)->send(new PlaceOrder($order->id));
                     }
 
-
-                    if (config('mail.status') && $order_mail_status == '1' && $request->user) {
-                        Mail::to($store_email)->send(new PlaceOrder($order->id));
-                    }
-
                     
 
 
@@ -927,9 +923,11 @@ class OrderController extends Controller
 
             $cus_name = $request->user->f_name." ".$request->user->l_name ?? null;
             $cus_phone = $request->user->phone ?? null;
+            $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
 
             $message = 
             "NEW ORDER \n\n".
+            "Module ======> $module".
             "OrderID ===>  $order->id \n".
             "Vendor Name ===>  $st->name \n".
             "Vendor Phone ===>  $st->phone \n".
