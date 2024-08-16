@@ -877,6 +877,8 @@ class OrderController extends Controller
             $order_mail_status = Helpers::get_mail_status('place_order_mail_status_user');
             $order_verification_mail_status = Helpers::get_mail_status('order_verification_mail_status_user');
             $store_email = Store::where('id', $request['store_id'])->first()->email;
+            $st = Store::where('id', $request['store_id'])->first() ?? null;
+
             $admin_email = 'order@boomzy.ng';
 
             //PlaceOrderMail
@@ -920,6 +922,22 @@ class OrderController extends Controller
             } catch (\Exception $ex) {
                 info($ex->getMessage());
             }
+
+
+            //Push Telegram Notification
+
+            $cus_name = $request->user->f_name." ".$request->user->l_name;
+            $cus_phone = $request->user->phone;
+            $message = 
+            "OrderID ===>  $order->id \n".
+            "Vendor Name ===>  $st->name \n".
+            "Vendor Phone ===>  $st->name \n".
+            "Customer Name ===>   $cus_name \n".
+            "Customer Phone ===>  $cus_phone \n";
+            send_notification($message);
+
+
+
             //PlaceOrderMail end
             return response()->json([
                 'message' => translate('messages.order_placed_successfully'),
