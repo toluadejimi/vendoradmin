@@ -912,28 +912,28 @@ class OrderController extends Controller
 
             //Push Telegram Notification
 
-            if(Auth::check() == true){
-            $cus_name = $request->user->f_name." ".$request->user->l_name ?? null;
-            $cus_phone = $request->user->phone ?? null;
-            $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
-            }else{
-                $cus_name = $request->contact_person_name ?? null;
-                $cus_phone = $requestcontact_person_number ?? null;
-                $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
+            // if(Auth::check() == true){
+            // $cus_name = $request->user->f_name." ".$request->user->l_name ?? null;
+            // $cus_phone = $request->user->phone ?? null;
+            // $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
+            // }else{
+            //     $cus_name = $request->contact_person_name ?? null;
+            //     $cus_phone = $requestcontact_person_number ?? null;
+            //     $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
 
-            }
+            // }
             
 
-            $message = 
-            "NEW ORDER \n\n".
-            "Module ======> $module \n".
-            "OrderID ===>  $order->id \n".
-            "Vendor Name ===>  $st->name \n".
-            "Vendor Phone ===>  $st->phone \n".
-            "Customer Name ===>   $cus_name \n".
-            "Customer Phone ===>  $cus_phone \n";
-            send_notification($message);
-            send_notification2($message);
+            // $message = 
+            // "NEW ORDER \n\n".
+            // "Module ======> $module \n".
+            // "OrderID ===>  $order->id \n".
+            // "Vendor Name ===>  $st->name \n".
+            // "Vendor Phone ===>  $st->phone \n".
+            // "Customer Name ===>   $cus_name \n".
+            // "Customer Phone ===>  $cus_phone \n";
+            // send_notification($message);
+            // send_notification2($message);
 
 
 
