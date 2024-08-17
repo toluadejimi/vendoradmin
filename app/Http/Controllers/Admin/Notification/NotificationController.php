@@ -125,7 +125,7 @@ class NotificationController extends BaseController
 
 
         $client = new Google_Client();
-        $client->setAuthConfig('service.json');
+        $client->setAuthConfig('_DIR_ . /service.json');
 
 
         $client->addScope('https://www.googleapis.com/auth/firebase.messaging');

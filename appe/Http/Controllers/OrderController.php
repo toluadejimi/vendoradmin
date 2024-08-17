@@ -34,8 +34,6 @@ class OrderController extends Controller
 
         if(Storage::disk('local')->has('firebase/credentials.json')){
 
-
-
             $client= new Google_Client();
             $client->setAuthConfig(storage_path('app/firebase/credentials.json'));
 
