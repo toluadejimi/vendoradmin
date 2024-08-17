@@ -918,7 +918,7 @@ class OrderController extends Controller
             $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
             }else{
                 $cus_name = $request->contact_person_name ?? null;
-                $cus_phone = $requestcontact_person_number ?? null;
+                $cus_phone = $request->contact_person_number ?? null;
                 $module = Module::where('id', $request->header('moduleId'))->first()->module_name;
 
             }
