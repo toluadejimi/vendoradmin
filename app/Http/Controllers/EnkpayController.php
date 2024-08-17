@@ -82,8 +82,7 @@ class EnkpayController extends Controller
 
         $payer = json_decode($data['payer_information']);
         $p_id = $request['payment_id'];
- -
-
+ 
         $key = env('WEBKEY');
         $ref = "BOOM".$data->attribute_id;
         $email = $payer->phone;
