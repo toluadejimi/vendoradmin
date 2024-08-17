@@ -136,6 +136,8 @@ class NotificationController extends BaseController
         $fcm_token = 'fcTTpBthSYC7dhqroF2R1P:APA91bGxC9Q-VMAVFZ7Sp3pBQx-0FtDIoJtG36Wq_ojkG1vvgY288Q-N4HFlJqLzdwp3s6ZwSEF9597TPdy7-BiCsdqqh_OH3wRyBgm8sWNN6BR7ZjKFbDpma7FVVX0CkHFOBCLY3iSc';
 
 
+        dd($access_token);
+
         if (!empty($access_token) && !empty($fcm_token)) {
 
             $projectId = env('FIREBASE_PROJECT_ID');
