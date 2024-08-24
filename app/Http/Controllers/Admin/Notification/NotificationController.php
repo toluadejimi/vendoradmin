@@ -135,6 +135,8 @@ class NotificationController extends BaseController
         $client_token = $client->getAccessToken();
         $access_token = $client_token['access_token'];
 
+        dd($access_token);
+
         $fcm_token = 'fcTTpBthSYC7dhqroF2R1P:APA91bGxC9Q-VMAVFZ7Sp3pBQx-0FtDIoJtG36Wq_ojkG1vvgY288Q-N4HFlJqLzdwp3s6ZwSEF9597TPdy7-BiCsdqqh_OH3wRyBgm8sWNN6BR7ZjKFbDpma7FVVX0CkHFOBCLY3iSc';
 
 
