@@ -124,14 +124,10 @@ class NotificationController extends BaseController
     {
 
 
-        dd(date('y:m:d h:i:s'));
+       // dd(date('y:m:d h:i:s'));
 
         $client = new Google_Client();
         $client->setAuthConfig('service.json');
-
-
-
-
         $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
         $client->refreshTokenWithAssertion();
         $client_token = $client->getAccessToken();
